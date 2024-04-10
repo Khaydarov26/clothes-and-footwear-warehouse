@@ -2,7 +2,7 @@ package model;
 
 import java.util.Objects;
 
-public class Shoes extends Product<Shoes> {
+public class Shoes {
     private String shoeType;
 
     public String getShoeType() {
@@ -13,14 +13,13 @@ public class Shoes extends Product<Shoes> {
     public boolean equals(Object object) {
         if (this == object) return true;
         if (object == null || getClass() != object.getClass()) return false;
-        if (!super.equals(object)) return false;
         Shoes shoes = (Shoes) object;
         return Objects.equals(getShoeType(), shoes.getShoeType());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), getShoeType());
+        return Objects.hash(getShoeType());
     }
 
     @Override
@@ -30,18 +29,7 @@ public class Shoes extends Product<Shoes> {
                 '}';
     }
 
-    @SuppressWarnings("unchecked")
-    public Shoes setShoeType(String shoeType) {
-        this.shoeType = shoeType;
-        return this;
-    }
-
-    public Shoes(Builder builder) {
-        super(builder);
-        this.shoeType = builder.shoeType;
-    }
-
-    public static class Builder extends Product.Builder<Builder, Shoes> {
+    public static class Builder {
         private String shoeType;
 
         public Builder shoeType(String shoeType) {
@@ -49,9 +37,10 @@ public class Shoes extends Product<Shoes> {
             return this;
         }
 
-        @Override
         public Shoes build() {
-            return new Shoes(this);
+            Shoes shoes = new Shoes();
+            shoes.shoeType = this.shoeType;
+            return shoes;
         }
     }
 }

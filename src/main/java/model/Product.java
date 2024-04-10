@@ -1,21 +1,43 @@
 package model;
 
-import builders.ObjBuilder;
 import constant.GenderType;
 import constant.Size;
 
 import java.util.Objects;
 
-public abstract class Product<T extends Product<T>> {
+public class Product {
     private Long id;
     private String name;
     private String description;
-
     private String color;
     private Long quantity;
     private double price;
     private GenderType genderType;
     private Size size;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public String getColor() {
         return color;
@@ -33,6 +55,14 @@ public abstract class Product<T extends Product<T>> {
         this.quantity = quantity;
     }
 
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
     public GenderType getGenderType() {
         return genderType;
     }
@@ -47,59 +77,6 @@ public abstract class Product<T extends Product<T>> {
 
     public void setSize(Size size) {
         this.size = size;
-    }
-
-    public Product(Builder<? extends ObjBuilder<?>, ? extends Product> b_) {
-        super();
-        this.name = b_.name;
-        this.price = b_.price;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public T setId(Long id) {
-        this.id = id;
-        return (T) this;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    @SuppressWarnings("unchecked")
-    public T setName(String name) {
-        this.name = name;
-        return (T) this;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    @SuppressWarnings("unchecked")
-    public T setDescription(String description) {
-        this.description = description;
-        return (T) this;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    @SuppressWarnings("unchecked")
-    public T setPrice(double price) {
-        this.price = price;
-        return (T) this;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        if (this == object) return true;
-        if (object == null || getClass() != object.getClass()) return false;
-        Product<?> product = (Product<?>) object;
-        return Double.compare(getPrice(), product.getPrice()) == 0 && Objects.equals(getId(), product.getId()) && Objects.equals(getName(), product.getName()) && Objects.equals(getDescription(), product.getDescription()) && Objects.equals(getColor(), product.getColor()) && Objects.equals(getQuantity(), product.getQuantity()) && getGenderType() == product.getGenderType() && getSize() == product.getSize();
     }
 
     @Override
@@ -121,50 +98,69 @@ public abstract class Product<T extends Product<T>> {
         return Objects.hash(getId(), getName(), getDescription(), getColor(), getQuantity(), getPrice(), getGenderType(), getSize());
     }
 
-
-
-    public static abstract class Builder<SELF extends Builder<SELF, T>, T> implements ObjBuilder<T> {
-        private double price;
+    public static class Builder {
+        private Long id;
         private String name;
         private String description;
         private String color;
         private Long quantity;
+        private double price;
         private GenderType genderType;
         private Size size;
 
-        public SELF price(double price_) {
-            price = price_;
-            return (SELF) this;
+        public Builder() {}
+
+        public Builder id(Long id) {
+            this.id = id;
+            return this;
         }
 
-        public SELF name(String name_) {
-            name = name_;
-            return (SELF) this;
+        public Builder name(String name) {
+            this.name = name;
+            return this;
         }
 
-        public SELF description(String description_) {
-            description = description_;
-            return (SELF) this;
+        public Builder description(String description) {
+            this.description = description;
+            return this;
         }
 
-        public SELF color(String color_) {
-            color = color_;
-            return (SELF) this;
+        public Builder color(String color) {
+            this.color = color;
+            return this;
         }
 
-        public SELF quantity(Long quantity_) {
-            quantity = quantity_;
-            return (SELF) this;
+        public Builder quantity(Long quantity) {
+            this.quantity = quantity;
+            return this;
         }
 
-        public SELF genderType(GenderType genderType_) {
-            genderType = genderType_;
-            return (SELF) this;
+        public Builder price(double price) {
+            this.price = price;
+            return this;
         }
 
-        public SELF size(Size size_) {
-            size = size_;
-            return (SELF) this;
+        public Builder genderType(GenderType genderType) {
+            this.genderType = genderType;
+            return this;
+        }
+
+        public Builder size(Size size) {
+            this.size = size;
+            return this;
+        }
+
+        public Product build() {
+            Product product = new Product();
+            product.setId(this.id);
+            product.setName(this.name);
+            product.setDescription(this.description);
+            product.setColor(this.color);
+            product.setQuantity(this.quantity);
+            product.setPrice(this.price);
+            product.setGenderType(this.genderType);
+            product.setSize(this.size);
+            return product;
         }
     }
 }
