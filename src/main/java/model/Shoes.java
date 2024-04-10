@@ -2,7 +2,7 @@ package model;
 
 import java.util.Objects;
 
-public class Shoes {
+public class Shoes extends Product{
     private String shoeType;
 
     public String getShoeType() {

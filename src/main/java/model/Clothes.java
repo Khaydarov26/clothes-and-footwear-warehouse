@@ -2,7 +2,8 @@ package model;
 
 import java.util.Objects;
 
-public class Clothes {
+public class Clothes extends Product{
+
     private String clotheType;
 
     public String getClotheType() {
