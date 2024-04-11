@@ -2,25 +2,27 @@ package dal;
 
 import constant.GenderType;
 import constant.Size;
-import model.Product;
+import model.Clothes;
 import model.Shoes;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 
-public class ShoesSearchCriteriaImplementation implements ShoesSearchCriteria<Shoes>{
+public class ShoesDaoImplementation implements ShoesDao<Shoes> {
 
     private final Map<Long, Shoes> shoeMap;
 
-    public ShoesSearchCriteriaImplementation() throws FileNotFoundException {
+    public ShoesDaoImplementation() throws FileNotFoundException {
         shoeMap = readProductInventory();
     }
 
     private Map<Long, Shoes> readProductInventory() throws FileNotFoundException {
         Map<Long, Shoes> shoesMap = new HashMap<>();
         try {
-            File myObj = new File("Shoes.csv");
+            File myObj = new File("src/main/resources/Shoes.csv");
             Scanner myReader = new Scanner(myObj);
             while (myReader.hasNextLine()) {
                 String data = myReader.nextLine();
@@ -70,7 +72,7 @@ public class ShoesSearchCriteriaImplementation implements ShoesSearchCriteria<Sh
     public List<Shoes> findByName(String name) throws FileNotFoundException {
         List<Shoes> shoes = new ArrayList<>();
         for (Shoes shoe : shoeMap.values()) {
-            if (shoe.getName().equals(name)) {
+            if (shoe.getName().equalsIgnoreCase(name)) {
                 shoes.add(shoe);
             }
         }
@@ -81,7 +83,7 @@ public class ShoesSearchCriteriaImplementation implements ShoesSearchCriteria<Sh
     public List<Shoes> findByColor(String color) throws FileNotFoundException {
         List<Shoes> shoes = new ArrayList<>();
         for (Shoes shoe : shoeMap.values()) {
-            if (shoe.getColor().equals(color)) {
+            if (shoe.getColor().equalsIgnoreCase(color)) {
                 shoes.add(shoe);
             }
         }
@@ -114,7 +116,7 @@ public class ShoesSearchCriteriaImplementation implements ShoesSearchCriteria<Sh
     public List<Shoes> findByGenderType(String genderType) throws FileNotFoundException {
         List<Shoes> shoes = new ArrayList<>();
         for (Shoes shoe : shoeMap.values()) {
-            if (shoe.getGenderType().name().equals(genderType)) {
+            if (shoe.getGenderType().name().equalsIgnoreCase(genderType)) {
                 shoes.add(shoe);
             }
         }
@@ -125,7 +127,7 @@ public class ShoesSearchCriteriaImplementation implements ShoesSearchCriteria<Sh
     public List<Shoes> findBySize(String size) throws FileNotFoundException {
         List<Shoes> shoes = new ArrayList<>();
         for (Shoes shoe : shoeMap.values()) {
-            if (shoe.getSize().name().equals(size)) {
+            if (shoe.getSize().name().equalsIgnoreCase(size)) {
                 shoes.add(shoe);
             }
         }
@@ -136,11 +138,82 @@ public class ShoesSearchCriteriaImplementation implements ShoesSearchCriteria<Sh
     public List<Shoes> findByShoeType(String shoeType) {
         List<Shoes> shoes = new ArrayList<>();
         for (Shoes shoe : shoeMap.values()) {
-            if (shoe.getShoeType().equals(shoeType)) {
+            if (shoe.getShoeType().equalsIgnoreCase(shoeType)) {
                 shoes.add(shoe);
             }
         }
         return shoes;
+    }
+
+    @Override
+    public String addShoe(Shoes shoes) {
+        shoeMap.put(shoes.getId(), shoes);
+        appendToFile(shoes);
+        return "Shoe added successfully.";
+    }
+
+    @Override
+    public String deleteShoeById(Long id) {
+        if (shoeMap.containsKey(id)) {
+            shoeMap.remove(id);
+            updateFile();
+            return "Shoe deleted successfully.";
+        } else {
+            return "Shoe with ID " + id + " not found.";
+        }
+    }
+
+    @Override
+    public String updateShoeById(Long id, Shoes shoes) {
+        if (shoeMap.containsKey(id)) {
+            shoeMap.put(id, shoes);
+            updateFile();
+            return "Shoe updated successfully.";
+        } else {
+            return "Shoe with ID " + id + " not found.";
+        }
+    }
+
+    @Override
+    public Double getTotalPriceOfShoeByName(String name) {
+        double totalPrice = 0;
+        for (Shoes shoes : shoeMap.values()) {
+            if (shoes.getName().equalsIgnoreCase(name)) {
+                totalPrice += shoes.getPrice() * shoes.getQuantity();
+            }
+        }
+        return totalPrice;
+    }
+
+    private void appendToFile(Shoes shoes) {
+        try {
+            FileWriter writer = new FileWriter("src/main/resources/Shoes.csv", true); // true for append mode
+            writer.write(shoes.getId() + ";" + shoes.getName() + ";" + shoes.getDescription() + ";" +
+                    shoes.getColor() + ";" + shoes.getQuantity() + ";" + shoes.getPrice() + ";" +
+                    shoes.getGenderType() + ";" + shoes.getSize() + ";" + shoes.getShoeType() + "\n");
+            writer.close();
+            System.out.println("Shoe appended to file successfully.");
+        } catch (IOException e) {
+            System.out.println("An error occurred while appending shoe to file.");
+            e.printStackTrace();
+        }
+    }
+
+    private void updateFile() {
+        try {
+            FileWriter writer = new FileWriter("src/main/resources/Shoes.csv");
+            writer.write("id;name;description;color;quantity;price;genderType;size;shoeType\n");
+            for (Shoes shoes : shoeMap.values()) {
+                writer.write(shoes.getId() + ";" + shoes.getName() + ";" + shoes.getDescription() + ";" +
+                        shoes.getColor() + ";" + shoes.getQuantity() + ";" + shoes.getPrice() + ";" +
+                        shoes.getGenderType() + ";" + shoes.getSize() + ";" + shoes.getShoeType() + "\n");
+            }
+            writer.close();
+            System.out.println("Shoes inventory updated and written to file successfully.");
+        } catch (IOException e) {
+            System.out.println("An error occurred while updating and writing shoes inventory to file.");
+            e.printStackTrace();
+        }
     }
 
 }

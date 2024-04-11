@@ -28,13 +28,22 @@ public class Shoes extends Product{
     @Override
     public String toString() {
         return "Shoes{" +
-                "shoeType='" + shoeType + '\'' +
+                "id=" + getId() +
+                ", name='" + getName() + '\'' +
+                ", description='" + getDescription() + '\'' +
+                ", color='" + getColor() + '\'' +
+                ", quantity=" + getQuantity() +
+                ", price=" + getPrice() +
+                ", genderType=" + getGenderType() +
+                ", size=" + getSize() +
+                ", shoeType='" + shoeType + '\'' +
                 '}';
     }
 
+
     public static class Builder {
         private String shoeType;
-        private Product.Builder productBuilder;
+        private final Product.Builder productBuilder;
 
         public Builder() {
             this.productBuilder = new Product.Builder();
@@ -87,7 +96,6 @@ public class Shoes extends Product{
 
         public Shoes build() {
             Shoes shoes = new Shoes();
-            // Set common properties using the parent builder methods
             Product product = productBuilder.build();
             shoes.setId(product.getId());
             shoes.setName(product.getName());

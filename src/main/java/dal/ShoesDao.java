@@ -1,11 +1,12 @@
 package dal;
 
+import model.Clothes;
 import model.Shoes;
 
 import java.io.FileNotFoundException;
 import java.util.List;
 
-public interface ShoesSearchCriteria<S extends Shoes> {
+public interface ShoesDao<S extends Shoes> {
 
     List<S> findById(Long id) throws FileNotFoundException;
     List<S> findByName(String name) throws FileNotFoundException;
@@ -15,4 +16,8 @@ public interface ShoesSearchCriteria<S extends Shoes> {
     List<S> findByGenderType(String genderType) throws FileNotFoundException;
     List<S> findBySize(String size) throws FileNotFoundException;
     List<S> findByShoeType(String shoeType);
+    String addShoe(Shoes shoes);
+    String deleteShoeById(Long id);
+    String updateShoeById(Long id, Shoes shoes);
+    Double getTotalPriceOfShoeByName(String name);
 }

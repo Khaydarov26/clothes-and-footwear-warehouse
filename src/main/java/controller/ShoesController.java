@@ -1,6 +1,7 @@
 package controller;
 
 import model.Shoes;
+import model.Shoes;
 import service.ShoesService;
 import service.ShoesServiceImplementation;
 
@@ -86,5 +87,45 @@ public class ShoesController {
 
     public List<Shoes> findByShoeType(String shoeType) {
         return shoesService.findByShoeType(shoeType);
+    }
+
+    public String addShoes(Shoes shoes) {
+        try {
+            return shoesService.addShoe(shoes);
+        } catch (Exception e) {
+            System.out.println("Error: "+ e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public String deleteShoesById(Long id) {
+        try {
+            return shoesService.deleteShoeById(id);
+        } catch (Exception e) {
+            System.out.println("Error: "+ e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public String updateShoesById(Long id, Shoes shoes) {
+        try {
+            return shoesService.updateShoeById(id, shoes);
+        } catch (Exception e) {
+            System.out.println("Error: "+ e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public Double getTotalPriceOfShoesByName(String name) {
+        try {
+            return shoesService.getTotalPriceOfShoeByName(name);
+        } catch (Exception e) {
+            System.out.println("Error: "+ e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
     }
 }
