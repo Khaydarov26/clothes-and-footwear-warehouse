@@ -1,5 +1,6 @@
 package service;
 
+import model.Clothes;
 import model.Product;
 
 import java.io.FileNotFoundException;
@@ -13,4 +14,12 @@ public interface ProductService {
     List<Product> findByPriceRange(double price) throws FileNotFoundException;
     List<Product> findByGenderType(String genderType) throws FileNotFoundException;
     List<Product> findBySize(String size) throws FileNotFoundException;
+
+    String addProduct(Product product);
+
+    String deleteProductById(Long id);
+
+    String updateProductById(Long id, Product product);
+
+    Double getTotalPriceOfProductByName(String name);
 }

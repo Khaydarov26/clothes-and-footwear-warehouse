@@ -83,5 +83,45 @@ public class ProductController {
             return null;
         }
     }
+
+    public String addProduct(Product product) {
+        try {
+            return productService.addProduct(product);
+        } catch (Exception e) {
+            System.out.println("Error: "+ e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public String deleteProductById(Long id) {
+        try {
+            return productService.deleteProductById(id);
+        } catch (Exception e) {
+            System.out.println("Error: "+ e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public String updateProductById(Long id, Product product) {
+        try {
+            return productService.updateProductById(id, product);
+        } catch (Exception e) {
+            System.out.println("Error: "+ e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public Double getTotalPriceOfProductByName(String name) {
+        try {
+            return productService.getTotalPriceOfProductByName(name);
+        } catch (Exception e) {
+            System.out.println("Error: "+ e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
 

@@ -1,6 +1,7 @@
 package service;
 
-import dal.ProductSearchCriteriaImplementation;
+import dal.ProductDaoImplementation;
+import model.Clothes;
 import model.Product;
 
 import java.io.FileNotFoundException;
@@ -8,44 +9,64 @@ import java.util.List;
 
 public class ProductServiceImplementation implements ProductService{
 
-    private final ProductSearchCriteriaImplementation productCriteria;
+    private final ProductDaoImplementation productDao;
 
     public ProductServiceImplementation() throws FileNotFoundException {
-        productCriteria = new ProductSearchCriteriaImplementation();
+        productDao = new ProductDaoImplementation();
     }
 
     @Override
     public List<Product> findById(Long id) throws FileNotFoundException {
-        return productCriteria.findById(id);
+        return productDao.findById(id);
     }
 
     @Override
     public List<Product> findByName(String name) throws FileNotFoundException {
-        return productCriteria.findByName(name);
+        return productDao.findByName(name);
     }
 
     @Override
     public List<Product> findByColor(String color) throws FileNotFoundException {
-        return productCriteria.findByColor(color);
+        return productDao.findByColor(color);
     }
 
     @Override
     public List<Product> findByQuantity(Long quantity) throws FileNotFoundException {
-        return productCriteria.findByQuantity(quantity);
+        return productDao.findByQuantity(quantity);
     }
 
     @Override
     public List<Product> findByPriceRange(double price) throws FileNotFoundException {
-        return productCriteria.findByPriceRange(price);
+        return productDao.findByPriceRange(price);
     }
 
     @Override
     public List<Product> findByGenderType(String genderType) throws FileNotFoundException {
-        return productCriteria.findByGenderType(genderType);
+        return productDao.findByGenderType(genderType);
     }
 
     @Override
     public List<Product> findBySize(String size) throws FileNotFoundException {
-        return productCriteria.findBySize(size);
+        return productDao.findBySize(size);
+    }
+
+    @Override
+    public String addProduct(Product product) {
+        return productDao.addProducts(product);
+    }
+
+    @Override
+    public String deleteProductById(Long id) {
+        return productDao.deleteProductsById(id);
+    }
+
+    @Override
+    public String updateProductById(Long id, Product product) {
+        return productDao.updateProductsById(id, product);
+    }
+
+    @Override
+    public Double getTotalPriceOfProductByName(String name) {
+        return productDao.getTotalPriceOfProductsByName(name);
     }
 }

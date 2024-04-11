@@ -1,1 +1,4 @@
 id;name;description;color;quantity;price;genderType;size;
+1;diapher;very big;black;2;3.0;MALE;XL;
+3;diapher;very big;black;2;3.0;FEMALE;XL;
+2;diapher;very big;black;2;3.0;MALE;XL;

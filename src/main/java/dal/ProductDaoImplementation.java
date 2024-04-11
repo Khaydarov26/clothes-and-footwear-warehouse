@@ -2,22 +2,25 @@ package dal;
 
 import constant.GenderType;
 import constant.Size;
+import model.Clothes;
 import model.Product;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
-public class ProductSearchCriteriaImplementation implements ProductSearchCriteria<Product> {
+public class ProductDaoImplementation implements ProductDao<Product> {
     private final Map<Long, Product> productMap;
 
-    public ProductSearchCriteriaImplementation() throws FileNotFoundException {
+    public ProductDaoImplementation() throws FileNotFoundException {
         productMap = readProductInventory();
     }
 
     private Map<Long, Product> readProductInventory() throws FileNotFoundException {
         Map<Long, Product> products = new HashMap<>();
         try {
-            File myObj = new File("ProductInventory.csv");
+            File myObj = new File("src/main/resources/ProductInventory.csv");
             Scanner myReader = new Scanner(myObj);
             while (myReader.hasNextLine()) {
                 String data = myReader.nextLine();
@@ -69,7 +72,7 @@ public class ProductSearchCriteriaImplementation implements ProductSearchCriteri
     public List<Product> findByName(String name) {
         List<Product> products = new ArrayList<>();
         for (Product product : productMap.values()) {
-            if (product.getName().equals(name)) {
+            if (product.getName().equalsIgnoreCase(name)) {
                 products.add(product);
             }
         }
@@ -80,7 +83,7 @@ public class ProductSearchCriteriaImplementation implements ProductSearchCriteri
     public List<Product> findByColor(String color) {
         List<Product> products = new ArrayList<>();
         for (Product product : productMap.values()) {
-            if (product.getColor().equals(color)) {
+            if (product.getColor().equalsIgnoreCase(color)) {
                 products.add(product);
             }
         }
@@ -113,7 +116,7 @@ public class ProductSearchCriteriaImplementation implements ProductSearchCriteri
     public List<Product> findByGenderType(String genderType) throws FileNotFoundException {
         List<Product> products = new ArrayList<>();
         for (Product product : productMap.values()) {
-            if (product.getGenderType().name().equals(genderType)) {
+            if (product.getGenderType().name().equalsIgnoreCase(genderType)) {
                 products.add(product);
             }
         }
@@ -124,10 +127,81 @@ public class ProductSearchCriteriaImplementation implements ProductSearchCriteri
     public List<Product> findBySize(String size) throws FileNotFoundException {
         List<Product> result = new ArrayList<>();
         for (Product product : productMap.values()) {
-            if (product.getSize().name().equals(size)) {
+            if (product.getSize().name().equalsIgnoreCase(size)) {
                 result.add(product);
             }
         }
         return result;
+    }
+
+    @Override
+    public String addProducts(Product product) {
+        productMap.put(product.getId(), product);
+        appendToFile(product);
+        return "Product added successfully.";
+    }
+
+    @Override
+    public String deleteProductsById(Long id) {
+        if (productMap.containsKey(id)) {
+            productMap.remove(id);
+            updateFile();
+            return "Product deleted successfully.";
+        } else {
+            return "Product with ID " + id + " not found.";
+        }
+    }
+
+    @Override
+    public String updateProductsById(Long id, Product product) {
+        if (productMap.containsKey(id)) {
+            productMap.put(id, product);
+            updateFile();
+            return "Product updated successfully.";
+        } else {
+            return "Product with ID " + id + " not found.";
+        }
+    }
+
+    @Override
+    public Double getTotalPriceOfProductsByName(String name) {
+        double totalPrice = 0;
+        for (Product product : productMap.values()) {
+            if (product.getName().equalsIgnoreCase(name)) {
+                totalPrice += product.getPrice() * product.getQuantity();
+            }
+        }
+        return totalPrice;
+    }
+
+    private void appendToFile(Product product) {
+        try {
+            FileWriter writer = new FileWriter("src/main/resources/ProductInventory.csv", true); // true for append mode
+            writer.write(product.getId() + ";" + product.getName() + ";" + product.getDescription() + ";" +
+                    product.getColor() + ";" + product.getQuantity() + ";" + product.getPrice() + ";" +
+                    product.getGenderType() + ";" + product.getSize());
+            writer.close();
+            System.out.println("Products appended to file successfully.");
+        } catch (IOException e) {
+            System.out.println("An error occurred while appending clothes to file.");
+            e.printStackTrace();
+        }
+    }
+
+    private void updateFile() {
+        try {
+            FileWriter writer = new FileWriter("src/main/resources/ProductInventory.csv");
+            writer.write("id;name;description;color;quantity;price;genderType;size\n");
+            for (Product product : productMap.values()) {
+                writer.write(product.getId() + ";" + product.getName() + ";" + product.getDescription() + ";" +
+                        product.getColor() + ";" + product.getQuantity() + ";" + product.getPrice() + ";" +
+                        product.getGenderType() + ";" + product.getSize());
+            }
+            writer.close();
+            System.out.println("Products inventory updated and written to file successfully.");
+        } catch (IOException e) {
+            System.out.println("An error occurred while updating and writing clothes inventory to file.");
+            e.printStackTrace();
+        }
     }
 }
