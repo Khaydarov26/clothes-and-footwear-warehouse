@@ -1,5 +1,8 @@
 package model;
 
+import constant.GenderType;
+import constant.Size;
+
 import java.util.Objects;
 
 public class Clothes extends Product{
@@ -32,14 +35,69 @@ public class Clothes extends Product{
 
     public static class Builder {
         private String clotheType;
+        private Product.Builder productBuilder;
 
-        public Builder clotheType(String clotheType) {
+        public Builder() {
+            this.productBuilder = new Product.Builder();
+        }
+
+        public Clothes.Builder clotheType(String clotheType) {
             this.clotheType = clotheType;
+            return this;
+        }
+
+        public Clothes.Builder id(Long id) {
+            this.productBuilder.id(id);
+            return this;
+        }
+
+        public Clothes.Builder name(String name) {
+            this.productBuilder.name(name);
+            return this;
+        }
+
+        public Clothes.Builder description(String description) {
+            this.productBuilder.description(description);
+            return this;
+        }
+
+        public Clothes.Builder color(String color) {
+            this.productBuilder.color(color);
+            return this;
+        }
+
+        public Clothes.Builder quantity(Long quantity) {
+            this.productBuilder.quantity(quantity);
+            return this;
+        }
+
+        public Clothes.Builder price(double price) {
+            this.productBuilder.price(price);
+            return this;
+        }
+
+        public Clothes.Builder genderType(GenderType genderType) {
+            this.productBuilder.genderType(genderType);
+            return this;
+        }
+
+        public Clothes.Builder size(Size size) {
+            this.productBuilder.size(size);
             return this;
         }
 
         public Clothes build() {
             Clothes clothes = new Clothes();
+            // Set common properties using the parent builder methods
+            Product product = productBuilder.build();
+            clothes.setId(product.getId());
+            clothes.setName(product.getName());
+            clothes.setDescription(product.getDescription());
+            clothes.setColor(product.getColor());
+            clothes.setQuantity(product.getQuantity());
+            clothes.setPrice(product.getPrice());
+            clothes.setGenderType(product.getGenderType());
+            clothes.setSize(product.getSize());
             clothes.clotheType = this.clotheType;
             return clothes;
         }
