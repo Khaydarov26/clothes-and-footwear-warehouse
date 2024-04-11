@@ -1,5 +1,6 @@
 package service;
 
+import dal.ShoesSearchCriteria;
 import dal.ShoesSearchCriteriaImplementation;
 import model.Shoes;
 
@@ -8,7 +9,7 @@ import java.util.List;
 
 public class ShoesServiceImplementation implements ShoesService{
 
-    private final ShoesSearchCriteriaImplementation shoesSearchCriteria;
+    private final ShoesSearchCriteria<Shoes> shoesSearchCriteria;
 
     public ShoesServiceImplementation() throws FileNotFoundException {
         shoesSearchCriteria = new ShoesSearchCriteriaImplementation();
