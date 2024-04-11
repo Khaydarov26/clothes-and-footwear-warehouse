@@ -5,7 +5,7 @@ import model.Product;
 import java.io.FileNotFoundException;
 import java.util.List;
 
-public interface SearchCriteria<P extends Product> {
+public interface ProductSearchCriteria<P extends Product> {
     Class<P> getProduct();
     List<P> findById(Long id) throws FileNotFoundException;
     List<P> findByName(String name) throws FileNotFoundException;

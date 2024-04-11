@@ -2,6 +2,7 @@ package controller;
 
 import model.Product;
 import service.ProductService;
+import service.ProductServiceImplementation;
 
 import java.io.FileNotFoundException;
 import java.util.List;
@@ -9,8 +10,8 @@ import java.util.List;
 public class ProductController {
     private final ProductService productService;
 
-    public ProductController(ProductService productService) {
-        this.productService = productService;
+    public ProductController() throws FileNotFoundException {
+        productService = new ProductServiceImplementation();
     }
 
     public List<Product> findById(Long id) {

@@ -7,10 +7,10 @@ import model.Product;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
-public class ProductCriteria implements SearchCriteria<Product> {
+public class ProductSearchCriteriaImplementation implements ProductSearchCriteria<Product> {
     private final Map<Long, Product> productMap;
 
-    public ProductCriteria() throws FileNotFoundException {
+    public ProductSearchCriteriaImplementation() throws FileNotFoundException {
         productMap = readProductInventory();
     }
 
@@ -57,9 +57,10 @@ public class ProductCriteria implements SearchCriteria<Product> {
     @Override
     public List<Product> findById(Long id) {
         List<Product> products = new ArrayList<>();
-        Product product = productMap.get(id);
-        if (product != null) {
-            products.add(product);
+        for (Product product : productMap.values()) {
+            if (product.getId().equals(id)) {
+                products.add(product);
+            }
         }
         return products;
     }

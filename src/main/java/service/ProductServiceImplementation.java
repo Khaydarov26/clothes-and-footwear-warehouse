@@ -1,6 +1,6 @@
 package service;
 
-import dal.ProductCriteria;
+import dal.ProductSearchCriteriaImplementation;
 import model.Product;
 
 import java.io.FileNotFoundException;
@@ -8,10 +8,10 @@ import java.util.List;
 
 public class ProductServiceImplementation implements ProductService{
 
-    ProductCriteria productCriteria;
+    private final ProductSearchCriteriaImplementation productCriteria;
 
     public ProductServiceImplementation() throws FileNotFoundException {
-        productCriteria = new ProductCriteria();
+        productCriteria = new ProductSearchCriteriaImplementation();
     }
 
     @Override
