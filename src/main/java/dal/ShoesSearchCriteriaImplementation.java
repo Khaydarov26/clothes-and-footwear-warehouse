@@ -9,7 +9,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
 
-public class ShoesSearchCriteriaImplementation implements ShoesSearchCriteria{
+public class ShoesSearchCriteriaImplementation implements ShoesSearchCriteria<Shoes>{
 
     private final Map<Long, Shoes> shoeMap;
 

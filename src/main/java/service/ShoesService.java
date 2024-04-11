@@ -1,7 +1,6 @@
 package service;
 
 import model.Shoes;
-import model.Shoes;
 
 import java.io.FileNotFoundException;
 import java.util.List;
