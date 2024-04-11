@@ -5,7 +5,7 @@ import model.Clothes;
 import java.io.FileNotFoundException;
 import java.util.List;
 
-public interface ClothesSearchCriteria<C extends Clothes>  {
+public interface ClothesDao<C extends Clothes>  {
 
     List<C> findById(Long id) throws FileNotFoundException;
     List<C> findByName(String name) throws FileNotFoundException;
@@ -15,4 +15,8 @@ public interface ClothesSearchCriteria<C extends Clothes>  {
     List<C> findByGenderType(String genderType) throws FileNotFoundException;
     List<C> findBySize(String size) throws FileNotFoundException;
     List<C> findByClotheType(String clotheType);
+    String addClothes(Clothes clothes);
+    String deleteClothesById(Long id);
+    String updateClothesById(Long id, Clothes clothes);
+    Double getTotalPriceOfClothesByName(String name);
 }

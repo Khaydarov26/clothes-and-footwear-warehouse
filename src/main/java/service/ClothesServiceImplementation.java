@@ -1,7 +1,7 @@
 package service;
 
-import dal.ClothesSearchCriteria;
-import dal.ClothesSearchCriteriaImplementation;
+import dal.ClothesDao;
+import dal.ClothesDaoImplementation;
 import model.Clothes;
 
 import java.io.FileNotFoundException;
@@ -9,50 +9,69 @@ import java.util.List;
 
 public class ClothesServiceImplementation implements ClothesService{
 
-    private final ClothesSearchCriteria<Clothes> clothesClothesSearchCriteria;
+    private final ClothesDao<Clothes> clothesDao;
 
     public ClothesServiceImplementation() throws FileNotFoundException {
-        clothesClothesSearchCriteria = new ClothesSearchCriteriaImplementation();
+        clothesDao = new ClothesDaoImplementation();
     }
-
 
     @Override
     public List<Clothes> findById(Long id) throws FileNotFoundException {
-        return clothesClothesSearchCriteria.findById(id);
+        return clothesDao.findById(id);
     }
 
     @Override
     public List<Clothes> findByName(String name) throws FileNotFoundException {
-        return clothesClothesSearchCriteria.findByName(name);
+        return clothesDao.findByName(name);
     }
 
     @Override
     public List<Clothes> findByColor(String color) throws FileNotFoundException {
-        return clothesClothesSearchCriteria.findByColor(color);
+        return clothesDao.findByColor(color);
     }
 
     @Override
     public List<Clothes> findByQuantity(Long quantity) throws FileNotFoundException {
-        return clothesClothesSearchCriteria.findByQuantity(quantity);
+        return clothesDao.findByQuantity(quantity);
     }
 
     @Override
     public List<Clothes> findByPriceRange(double price) throws FileNotFoundException {
-        return clothesClothesSearchCriteria.findByPriceRange(price);
+        return clothesDao.findByPriceRange(price);
     }
 
     @Override
     public List<Clothes> findByGenderType(String genderType) throws FileNotFoundException {
-        return clothesClothesSearchCriteria.findByGenderType(genderType);
+        return clothesDao.findByGenderType(genderType);
     }
 
     @Override
     public List<Clothes> findBySize(String size) throws FileNotFoundException {
-        return clothesClothesSearchCriteria.findBySize(size);
+        return clothesDao.findBySize(size);
     }
 
     @Override
     public List<Clothes> findByClotheType(String clotheType) {
-        return clothesClothesSearchCriteria.findByClotheType(clotheType);
+        return clothesDao.findByClotheType(clotheType);
+    }
+
+    @Override
+    public String addClothes(Clothes clothes) {
+        return clothesDao.addClothes(clothes);
+    }
+
+    @Override
+    public String deleteClothesById(Long id) {
+        return clothesDao.deleteClothesById(id);
+    }
+
+    @Override
+    public String updateClothesById(Long id, Clothes clothes) {
+        return clothesDao.updateClothesById(id, clothes);
+    }
+
+    @Override
+    public Double getTotalPriceOfClothesByName(String name) {
+        return clothesDao.getTotalPriceOfClothesByName(name);
     }
 }

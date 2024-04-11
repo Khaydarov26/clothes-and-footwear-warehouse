@@ -16,4 +16,12 @@ public interface ClothesService {
     List<Clothes> findBySize(String size) throws FileNotFoundException;
 
     List<Clothes> findByClotheType(String clotheType);
+
+    String addClothes(Clothes clothes);
+
+    String deleteClothesById(Long id);
+
+    String updateClothesById(Long id, Clothes clothes);
+
+    Double getTotalPriceOfClothesByName(String name);
 }
